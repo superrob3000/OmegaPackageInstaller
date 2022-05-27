@@ -83,7 +83,7 @@ namespace OmegaPackageInstaller
 //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\", "BigBoxWithStartupMarquee.exe", Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)));
 //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "OmegaStartupMarquee.dll"));
 
-//            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\", "OmegaBigBoxMonitor.exe", Environment.GetFolderPath(Environment.SpecialFolder.Startup)));
+            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\", "OmegaBigBoxMonitor.exe", Environment.GetFolderPath(Environment.SpecialFolder.Startup)));
 
 //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "ManagePlatformVideoMarquees.dll"));
 //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "MediaPlayer.Wpf.dll"));

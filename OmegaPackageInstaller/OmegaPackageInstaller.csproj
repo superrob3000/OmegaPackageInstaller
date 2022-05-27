@@ -103,5 +103,8 @@
   <ItemGroup>
     <EmbeddedResource Include="OmegaSettingsMenu.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="OmegaBigBoxMonitor.exe" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
