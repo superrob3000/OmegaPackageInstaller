@@ -229,7 +229,7 @@ namespace OmegaPackageInstaller
 
 
                         //Remove BigBoxMonitor.exe startup shortcut (for v1.15)
-                        String montor_shortcut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "OmegaBigBoxMonitor.exe");
+                        String montor_shortcut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "OmegaBigBoxMonitor.lnk");
                         if (File.Exists(montor_shortcut))
                         {
                             File.Delete(montor_shortcut);
