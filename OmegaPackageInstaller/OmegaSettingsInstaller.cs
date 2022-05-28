@@ -71,10 +71,11 @@ namespace OmegaPackageInstaller
             } while (BigBoxRunning);
 
             //Only pull in what was modified from the last baseline release...
-//            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\", "RebootBigBox.exe"));
+            //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\", "RebootBigBox.exe"));
             InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "OmegaSettingsMenu.dll"));
-//            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "GameMarqueeView.xaml"));
-//            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "PlatformMarqueeView.xaml"));
+            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "XamlAnimatedGif.dll"));
+            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "GameMarqueeView.xaml"));
+            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "PlatformMarqueeView.xaml"));
 //           InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "WheelGamesView.xaml"));
 //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "Wheel2GamesView.xaml"));
 //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "Wheel3GamesView.xaml"));
@@ -227,6 +228,14 @@ namespace OmegaPackageInstaller
                         //textbox_console.AppendText("Adjusted LaunchBox background image path priorities to support static image themes.\r\n");
 
 
+                        //Remove BigBoxMonitor.exe startup shortcut (for v1.15)
+                        String montor_shortcut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "OmegaBigBoxMonitor.exe");
+                        if (File.Exists(montor_shortcut))
+                        {
+                            File.Delete(montor_shortcut);
+                            textbox_console.AppendText("Deleted shortcut: " + montor_shortcut + ".\r\n");
+                        }
+
                         //Start the monitor
                         Process ps_monitor = new Process();
                         ps_monitor.StartInfo.UseShellExecute = false;
@@ -247,6 +256,10 @@ namespace OmegaPackageInstaller
 
                         button_complete.Visible = true;
                         textbox_console.AppendText("Completed.\r\n\r\n");
+
+                        textbox_console.AppendText("What's new in v1.15:\r\n");
+                        textbox_console.AppendText(" - For gif marquees, switched from the WpfAnimatedGif control included with LaunchBox to XamlAnimatedGif for better stability.\r\n");
+                        textbox_console.AppendText(" - Removed BigBoxMonitor shortcut from startup folder.\r\n");
 
                         textbox_console.AppendText("What's new in v1.14:\r\n");
                         textbox_console.AppendText(" - We now use RSA to cryptographically sign and authenticate OTA updates.\r\n");
