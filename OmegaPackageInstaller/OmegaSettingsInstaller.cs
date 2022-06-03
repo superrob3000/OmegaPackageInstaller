@@ -84,7 +84,7 @@ namespace OmegaPackageInstaller
 //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\", "BigBoxWithStartupMarquee.exe", Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)));
 //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "OmegaStartupMarquee.dll"));
 
-//            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\", "OmegaBigBoxMonitor.exe", Environment.GetFolderPath(Environment.SpecialFolder.Startup)));
+            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\", "OmegaBigBoxMonitor.exe"));
 
 //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "ManagePlatformVideoMarquees.dll"));
 //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "MediaPlayer.Wpf.dll"));
@@ -256,6 +256,9 @@ namespace OmegaPackageInstaller
 
                         button_complete.Visible = true;
                         textbox_console.AppendText("Completed.\r\n\r\n");
+
+                        textbox_console.AppendText("What's new in v1.16:\r\n");
+                        textbox_console.AppendText(" - OmegaBigBoxMonitor will now automatically restart BigBox if it runs out of memory.\r\n");
 
                         textbox_console.AppendText("What's new in v1.15:\r\n");
                         textbox_console.AppendText(" - For gif marquees, switched from the WpfAnimatedGif control included with LaunchBox to XamlAnimatedGif for better stability.\r\n");
