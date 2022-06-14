@@ -55,6 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeleteFile.cs" />
+    <Compile Include="InstallFile.cs" />
     <Compile Include="OmegaSettingsInstaller.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +103,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="XamlAnimatedGif.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="GameMarqueeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -109,9 +114,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="XamlAnimatedGif.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="OmegaBigBoxMonitor.exe" />

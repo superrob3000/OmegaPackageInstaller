@@ -31,21 +31,21 @@ namespace OmegaPackageInstaller
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OmegaSettingsInstaller));
-            this.textbox_console = new System.Windows.Forms.TextBox();
+            OmegaSettingsInstaller.textbox_console = new System.Windows.Forms.TextBox();
             this.button_complete = new System.Windows.Forms.Button();
             this.start_timer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // textbox_console
             // 
-            this.textbox_console.BackColor = System.Drawing.Color.White;
-            this.textbox_console.Location = new System.Drawing.Point(12, 12);
-            this.textbox_console.Multiline = true;
-            this.textbox_console.Name = "textbox_console";
-            this.textbox_console.ReadOnly = true;
-            this.textbox_console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textbox_console.Size = new System.Drawing.Size(799, 539);
-            this.textbox_console.TabIndex = 0;
+            OmegaSettingsInstaller.textbox_console.BackColor = System.Drawing.Color.White;
+            OmegaSettingsInstaller.textbox_console.Location = new System.Drawing.Point(12, 12);
+            OmegaSettingsInstaller.textbox_console.Multiline = true;
+            OmegaSettingsInstaller.textbox_console.Name = "textbox_console";
+            OmegaSettingsInstaller.textbox_console.ReadOnly = true;
+            OmegaSettingsInstaller.textbox_console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            OmegaSettingsInstaller.textbox_console.Size = new System.Drawing.Size(799, 539);
+            OmegaSettingsInstaller.textbox_console.TabIndex = 0;
             // 
             // button_complete
             // 
@@ -73,7 +73,7 @@ namespace OmegaPackageInstaller
             this.ClientSize = new System.Drawing.Size(827, 692);
             this.ControlBox = false;
             this.Controls.Add(this.button_complete);
-            this.Controls.Add(this.textbox_console);
+            this.Controls.Add(OmegaSettingsInstaller.textbox_console);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OmegaSettingsInstaller";
@@ -86,7 +86,7 @@ namespace OmegaPackageInstaller
 
         #endregion
 
-        private System.Windows.Forms.TextBox textbox_console;
+        static public System.Windows.Forms.TextBox textbox_console;
         private System.Windows.Forms.Button button_complete;
         private System.Windows.Forms.Timer start_timer;
     }

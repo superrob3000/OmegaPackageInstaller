@@ -16,7 +16,8 @@ namespace OmegaPackageInstaller
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new OmegaSettingsInstaller());
+            try { Application.Run(new OmegaSettingsInstaller()); }
+            catch { }
         }
     }
 }
