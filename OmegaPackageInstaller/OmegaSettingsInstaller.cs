@@ -17,15 +17,12 @@ namespace OmegaPackageInstaller
 {
     public partial class OmegaSettingsInstaller : Form
     {
-        String LaunchBoxFolder;
+        //Bump the version number for each release
+        private String NewVersion = "1.17";
 
         public OmegaSettingsInstaller()
         {
             InitializeComponent();
-
-            //Bump the version number for each release
-            NewVersion = "1.17";
-
             PrepareForInstall();
 
             //Update the Install file and Delete file Lists.
@@ -330,6 +327,7 @@ namespace OmegaPackageInstaller
         XDocument xSettingsDoc = null;
 
         private String CurrentVersion;
-        private String NewVersion;
+        String LaunchBoxFolder;
+
     }
 }
