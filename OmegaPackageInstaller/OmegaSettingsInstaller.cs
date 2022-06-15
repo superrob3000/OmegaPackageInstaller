@@ -103,17 +103,11 @@ namespace OmegaPackageInstaller
             textbox_console.AppendText(" - For gif marquees, switched from the WpfAnimatedGif control included with LaunchBox to XamlAnimatedGif for better stability.\r\n");
             textbox_console.AppendText(" - Removed BigBoxMonitor shortcut from startup folder.\r\n");
 
-            textbox_console.AppendText("What's new in v1.14:\r\n");
-            textbox_console.AppendText(" - We now use RSA to cryptographically sign and authenticate OTA updates.\r\n");
-
             textbox_console.AppendText("What's new in v1.13:\r\n");
             textbox_console.AppendText(" - Ryan added Gun4IR license to the backup/restore utility.\r\n");
 
             textbox_console.AppendText("What's new in v1.12:\r\n");
             textbox_console.AppendText(" - Added Wii save data to the backup/restore utility.\r\n");
-
-            textbox_console.AppendText("What's new in v1.11:\r\n");
-            textbox_console.AppendText(" - Added menu option to check for OTA updates.\r\n");
 
             textbox_console.AppendText("What's new in v1.10.1:\r\n");
             textbox_console.AppendText(" - Ryan's updates for backup/restore of intro vids, high scores, stable IDs, Blinky, and BB License.\r\n");
