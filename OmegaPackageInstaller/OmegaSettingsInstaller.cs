@@ -61,23 +61,31 @@ namespace OmegaPackageInstaller
 
         private void AdditionalActions()
         {
-            ////Set BigBox video setting to WMP (for v1.8.3)
-            //XDocument xdoc = XDocument.Load(LaunchBoxFolder + "/Data/BigBoxSettings.xml");
-            //var element = xdoc
-            //        .XPathSelectElement("/LaunchBox/BigBoxSettings")
-            //        .Element("VideoPlaybackEngine");
-            //element.Value = "Windows Media Player";
-            //xdoc.Save(LaunchBoxFolder + "/Data/BigBoxSettings.xml");
-            //textbox_console.AppendText("Set BigBox video setting to Windows Media Player.\r\n");
+            ////Set BigBox video setting to WMP
+            //try
+            //{
+            //    XDocument xdoc = XDocument.Load(LaunchBoxFolder + "/Data/BigBoxSettings.xml");
+            //    var element = xdoc
+            //            .XPathSelectElement("/LaunchBox/BigBoxSettings")
+            //            .Element("VideoPlaybackEngine");
+            //    element.Value = "Windows Media Player";
+            //    xdoc.Save(LaunchBoxFolder + "/Data/BigBoxSettings.xml");
+            //    textbox_console.AppendText("Set BigBox video setting to Windows Media Player.\r\n");
+            //}
+            //catch { }
 
-            ////Adjust Background image priorities (for v1.8.3)
-            //xdoc = XDocument.Load(LaunchBoxFolder + "/Data/Settings.xml");
-            //element = xdoc
-            //        .XPathSelectElement("/LaunchBox/Settings")
-            //        .Element("BackgroundImageTypePriorities");
-            //element.Value = "Screenshot - Game Title,Screenshot - Game Select,Screenshot - Gameplay,Epic Games Background,Uplay Background,Origin Background,Amazon Background,Fanart - Background,Advertisement Flyer - Front,Arcade - Cabinet,Clear Logo";
-            //xdoc.Save(LaunchBoxFolder + "/Data/Settings.xml");
-            //textbox_console.AppendText("Adjusted LaunchBox background image path priorities to support static image themes.\r\n");
+            //Adjust Background image priorities (these are used for static image themes)
+            try
+            {
+                XDocument xdoc = XDocument.Load(LaunchBoxFolder + "/Data/Settings.xml");
+                var element = xdoc
+                        .XPathSelectElement("/LaunchBox/Settings")
+                        .Element("BackgroundImageTypePriorities");
+                element.Value = "Screenshot - Game Title,Screenshot - Game Select,Screenshot - Gameplay,Epic Games Background,Uplay Background,Origin Background,Amazon Background,Fanart - Background,Advertisement Flyer - Front,Arcade - Cabinet,Clear Logo";
+                xdoc.Save(LaunchBoxFolder + "/Data/Settings.xml");
+                textbox_console.AppendText("Adjusted LaunchBox background image path priorities to support static image themes.\r\n");
+            }
+            catch{ }
 
         }
 
