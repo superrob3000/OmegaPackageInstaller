@@ -32,6 +32,7 @@ namespace OmegaPackageInstaller
             //For each of these, a correspondidng file must be added to the project with Build Action set to Embedded Resource
             InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "OmegaSettingsMenu.dll"));
             InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "XamlAnimatedGif.dll"));
+            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "ManagePlatformVideoMarquees.dll"));
             InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "GameMarqueeView.xaml"));
             InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "PlatformMarqueeView.xaml"));
             //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "WheelGamesView.xaml"));
@@ -45,7 +46,6 @@ namespace OmegaPackageInstaller
 
 
             // These files will be deleted if they exist
-            DeleteFileList.Add(new DeleteFile(LaunchBoxFolder + "\\Plugins\\", "ManagePlatformVideoMarquees.dll"));
             DeleteFileList.Add(new DeleteFile(LaunchBoxFolder + "\\Plugins\\", "MediaPlayer.Wpf.dll"));
             DeleteFileList.Add(new DeleteFile(LaunchBoxFolder + "\\Plugins\\", "MediaPlayer.Wpf.Mpv.dll"));
             DeleteFileList.Add(new DeleteFile(LaunchBoxFolder + "\\Plugins\\", "Mpv.NET.dll"));
@@ -89,6 +89,9 @@ namespace OmegaPackageInstaller
         private void DisplayHistory()
         {
             textbox_console.AppendText("Completed.\r\n\r\n");
+
+            textbox_console.AppendText("What's new in v1.18:\r\n");
+            textbox_console.AppendText(" - Restored the ManagePlatformVideoMarquees plugin that was removed in 1.17. \r\n");
 
             textbox_console.AppendText("What's new in v1.17:\r\n");
             textbox_console.AppendText(" - Removed MPV which had a bad memory leak. For movie file marquees switched from MPV to a new control derived from MediaElement. \r\n");
