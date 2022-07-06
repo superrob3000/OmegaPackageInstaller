@@ -18,7 +18,7 @@ namespace OmegaPackageInstaller
     public partial class OmegaSettingsInstaller : Form
     {
         //Bump the version number for each release
-        private String NewVersion = "1.17";
+        private String NewVersion = "1.18";
 
         public OmegaSettingsInstaller()
         {
