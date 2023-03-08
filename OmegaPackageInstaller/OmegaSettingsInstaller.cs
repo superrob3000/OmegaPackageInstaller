@@ -113,7 +113,7 @@ namespace OmegaPackageInstaller
                 try
                 {
                     IWshShortcut existing_link = (IWshShortcut)shell.CreateShortcut(Path.GetFullPath(file)); //Link the interface to our shortcut
-                    if (existing_link.TargetPath == TargetPathName)
+                    if (Path.GetFileName(existing_link.TargetPath) == Path.GetFileName(TargetPathName))
                     {
                         //The shortcut already exists.
                         link_found = true;
@@ -131,10 +131,11 @@ namespace OmegaPackageInstaller
             }
 
             //Test if ThirdScreen is already installed
-            String thirdscreen_path = Path.Combine(LaunchBoxFolder, "ThirdScreen.dll");
+            String thirdscreen_path = Path.Combine(LaunchBoxFolder, "Plugins/ThirdScreen.dll");
             if (!File.Exists(thirdscreen_path))
             {
                 //ThirdScreen not installed
+                textbox_console.AppendText("Installing ThirdScreen version 2.0.12.\r\n");
 
                 //Disable Marquee in BigBox
                 try
@@ -172,9 +173,15 @@ namespace OmegaPackageInstaller
                     //Copy startup videos
                     foreach (var file in Directory.GetFiles(Path.Combine(LaunchBoxFolder, "Videos/StartupMarquee")))
                     {
-                        File.Copy(file, Path.Combine(Path.Combine(LaunchBoxFolder, "Videos/StartupThirdScreen/Main Marquee"), Path.GetFileName(file)));
+                        String dest = Path.Combine(Path.Combine(LaunchBoxFolder, "Videos/StartupThirdScreen/Main Marquee"), Path.GetFileName(file));
+                        if (!File.Exists(dest))
+                        {
+                            File.Copy(file, dest);
+                        }
                     }
                 }
+
+                textbox_console.AppendText("*** Installed ThirdScreen version 2.0.12.\r\nTo complete setup, go to LaunchBox->Tools->ThirdScreenSettings->Main Marquee and select the display to use for your marquee ***\r\n");
             }
             else
             {
@@ -184,15 +191,16 @@ namespace OmegaPackageInstaller
                 String ts_settings_path = Path.Combine(LaunchBoxFolder, "Data/ThirdScreenSettings.xml");
                 if (File.Exists(ts_settings_path))
                 {
-                    try { xSettingsDoc = XDocument.Load(ts_settings_path); }
-                    catch { xSettingsDoc = null; }
-                    if (xSettingsDoc != null)
+                    XDocument tsSettingsDoc = null;
+                    try { tsSettingsDoc = XDocument.Load(ts_settings_path); }
+                    catch { tsSettingsDoc = null; }
+                    if (tsSettingsDoc != null)
                     {
                         try
                         {
                             XElement ThirdScreenSettings = new XElement("ThirdScreenPlugin");
 
-                            string XMLVersion = xSettingsDoc
+                            string XMLVersion = tsSettingsDoc
                                                 .XPathSelectElement("/ThirdScreenPlugin/AppSettings")
                                                 .Element("Version")
                                                 .Value;
@@ -330,22 +338,6 @@ namespace OmegaPackageInstaller
                     }
                 }
                 xSettingsDoc.Save(xml_path);
-
-                //Re-start the monitor
-                Process ps_monitor = new Process();
-                ps_monitor.StartInfo.UseShellExecute = false;
-                ps_monitor.StartInfo.RedirectStandardInput = false;
-                ps_monitor.StartInfo.RedirectStandardOutput = false;
-                ps_monitor.StartInfo.CreateNoWindow = true;
-                ps_monitor.StartInfo.UserName = null;
-                ps_monitor.StartInfo.Password = null;
-                ps_monitor.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-                ps_monitor.StartInfo.FileName = LaunchBoxFolder + "/OmegaBigBoxMonitor.exe";
-                if (File.Exists(ps_monitor.StartInfo.FileName))
-                {
-                    ps_monitor.Start();
-                }
-                textbox_console.AppendText("Started Omega BigBox Monitor.\r\n");
 
                 button_complete.Visible = true;
                 DisplayHistory();
