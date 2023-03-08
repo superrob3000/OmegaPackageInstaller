@@ -130,6 +130,24 @@ namespace OmegaPackageInstaller
                 textbox_console.AppendText("Added startup shortcut to BigBox.exe.\r\n");
             }
 
+            //Remove startup shortcut to BigBoxWithStartupMarquee.exe
+            TargetPathName = Path.Combine(LaunchBoxFolder, "BigBoxWithStartupMarquee.exe");
+            foreach (var file in Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.Startup)))
+            {
+                try
+                {
+                    IWshShortcut existing_link = (IWshShortcut)shell.CreateShortcut(Path.GetFullPath(file)); //Link the interface to our shortcut
+                    if (Path.GetFileName(existing_link.TargetPath) == Path.GetFileName(TargetPathName))
+                    {
+                        //Delete the shortcut
+                        File.Delete(file);
+                        textbox_console.AppendText("Deleted startup shortcut to BigBoxWithStartupMarquee.exe.\r\n");
+                    }
+                }
+                catch { }
+            }
+
+
             //Test if ThirdScreen is already installed
             String thirdscreen_path = Path.Combine(LaunchBoxFolder, "Plugins/ThirdScreen.dll");
             if (!File.Exists(thirdscreen_path))
@@ -181,7 +199,9 @@ namespace OmegaPackageInstaller
                     }
                 }
 
-                textbox_console.AppendText("*** Installed ThirdScreen version 2.0.12.\r\nTo complete setup, go to LaunchBox->Tools->ThirdScreenSettings->Main Marquee and select the display to use for your marquee ***\r\n");
+                textbox_console.AppendText("******\r\n");
+                textbox_console.AppendText("Installed ThirdScreen version 2.0.12.\r\nTo complete setup, go to LaunchBox->Tools->ThirdScreenSettings->Main Marquee and select the display to use for your marquee.\r\n");
+                textbox_console.AppendText("******\r\n");
             }
             else
             {
