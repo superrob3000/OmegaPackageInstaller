@@ -2,11 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:coverFlow="clr-namespace:Unbroken.LaunchBox.Windows.Controls.CoverFlow;assembly=Unbroken.LaunchBox.Windows"
-             xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
-             xmlns:omega="clr-namespace:OmegaSettingsMenu;assembly=OmegaSettingsMenu"
              mc:Ignorable="d"
-             d:DesignHeight="340"
+             d:DesignHeight="562"
              d:DesignWidth="1000"
              HorizontalAlignment="Stretch"
              VerticalAlignment="Stretch"
@@ -16,73 +13,6 @@
              Padding="0"
              Background="#000">
 	<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-		<!-- We are using a hidden FlowVideo control just to get the game's marquee video path
-		from LaunchBox (it doesn't appear to be exposed anywhere else as of v12.8. We don't use
-		FlowVideo to display the actual marquee because it results in piss-poor transitions 
-		between video loops. -->
-        <coverFlow:FlowVideo x:Name="CoverflowForPath" VideoType="Marquee" DataContext="{Binding SelectedGame}" PlayVideo="True" PlayAudio="False" FallbackToDefault="False" Visibility="Hidden">
-		</coverFlow:FlowVideo>
-
-		<!-- Clear logo is lowest priority. -->
-        <Image Source="{Binding Path=SelectedGame.ClearLogoImagePath}"
-          Stretch="{x:Static omega:Marquee.Stretch}" HorizontalAlignment="Center" VerticalAlignment="{x:Static omega:Marquee.VerticalAlignment}" Height="{x:Static omega:Marquee.Height}"
-          Width="{x:Static omega:Marquee.Width}" RenderOptions.BitmapScalingMode="HighQuality">
-			<Image.Style>
-				<Style TargetType="{x:Type Image}">
-                    <Setter Property="Visibility" Value="Visible"/>
-					<Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=MarqueeVideo, Path=Visibility}" Value="Visible">
-                            <Setter Property="Visibility" Value="Hidden"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding ElementName=MarqueeImage, Path=Visibility}" Value="Visible">
-							<Setter Property="Visibility" Value="Hidden"/>
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-			</Image.Style>		  
-		</Image>
-
-		<!-- Marquee gif or static image will only be displayed if no video file is present. -->
-        <Image x:Name="MarqueeImage" gif:AnimationBehavior.SourceUri="{Binding Path=SelectedGame.MarqueeImagePath}"
-          Stretch="{x:Static omega:Marquee.Stretch}" HorizontalAlignment="Center" VerticalAlignment="{x:Static omega:Marquee.VerticalAlignment}" Height="{x:Static omega:Marquee.Height}"
-          Width="{x:Static omega:Marquee.Width}" RenderOptions.BitmapScalingMode="HighQuality"
-		  Tag="{Binding Path=SelectedGame.MarqueeImagePath}">
-			<Image.Style>
-				<Style TargetType="{x:Type Image}">
-                    <Setter Property="Visibility" Value="Visible"/>
-					<Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=MarqueeVideo, Path=Visibility}" Value="Visible">
-                            <Setter Property="Visibility" Value="Hidden"/>
-                        </DataTrigger>
-						<DataTrigger Binding="{Binding Path=Tag,RelativeSource={RelativeSource Self}}" Value="">
-							<Setter Property="Visibility" Value="Hidden"/>
-						</DataTrigger>
-						<DataTrigger Binding="{Binding Path=Tag,RelativeSource={RelativeSource Self}}" Value="{x:Null}">
-							<Setter Property="Visibility" Value="Hidden"/>
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-			</Image.Style>		  
-		</Image>
-
-		<!-- Video files have highest priority. -->
-		<omega:OmegaMediaElement x:Name="MarqueeVideo"
-			HorizontalAlignment="Center" VerticalAlignment="{x:Static omega:Marquee.VerticalAlignment}" Height="{x:Static omega:Marquee.Height}" Width="{x:Static omega:Marquee.Width}" Stretch="{x:Static omega:Marquee.Stretch}" Volume="0" IsMuted="true"
-			ScrubbingEnabled="true" CacheMode="BitmapCache"
-			VideoPath="{Binding ElementName=CoverflowForPath, Path=VideoPath}">
-			<omega:OmegaMediaElement.Style>
-				<Style TargetType="{x:Type omega:OmegaMediaElement}">
-					<Setter Property="Visibility" Value="Visible"/>
-					<Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=CoverflowForPath, Path=HasVideo}" Value="False">
-							<Setter Property="Visibility" Value="Hidden"/>
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-			</omega:OmegaMediaElement.Style>
-		</omega:OmegaMediaElement>
-		
+        <Image Source="{Binding Path=SelectedGame.MarqueeImagePath}" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" />
     </Grid>
 </UserControl>
-
-

@@ -2,10 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
-             xmlns:omega="clr-namespace:OmegaSettingsMenu;assembly=OmegaSettingsMenu"
              mc:Ignorable="d"
-             d:DesignHeight="340"
+             d:DesignHeight="562"
              d:DesignWidth="1000"
              HorizontalAlignment="Stretch"
              VerticalAlignment="Stretch"
@@ -14,74 +12,7 @@
              Margin="0"
              Padding="0"
              Background="#000">
-	<UserControl.Resources>
-		<!-- Video marquees for platforms and playlists are not supported natively as of 
-		LaunchBox v12.8 so we use our own custom converter to get the path to platform/playlist 
-		marquee video files. -->
-        <omega:VideoMarqueePathConverter x:Key="VideoMarqueePathConverter" Type="Platform" PathIsString="True"/>
-	</UserControl.Resources>			 
 	<Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-
-		<!-- Clear logo is lowest priority. -->
-        <Image Source="{Binding Path=SelectedPlatform.ClearLogoImagePath}"
-          Stretch="{x:Static omega:Marquee.Stretch}" HorizontalAlignment="Center" VerticalAlignment="{x:Static omega:Marquee.VerticalAlignment}" Height="{x:Static omega:Marquee.Height}"
-          Width="{x:Static omega:Marquee.Width}" RenderOptions.BitmapScalingMode="HighQuality">
-			<Image.Style>
-				<Style TargetType="{x:Type Image}">
-                    <Setter Property="Visibility" Value="Visible"/>
-					<Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=MarqueeVideo, Path=Visibility}" Value="Visible">
-                            <Setter Property="Visibility" Value="Hidden"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding ElementName=MarqueeImage, Path=Visibility}" Value="Visible">
-							<Setter Property="Visibility" Value="Hidden"/>
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-			</Image.Style>		  
-		</Image>
-
-		<!-- Marquee gif or static image will only be displayed if no video file is present. -->
-        <Image x:Name="MarqueeImage" gif:AnimationBehavior.SourceUri="{Binding Path=SelectedPlatform.BannerImagePath}" Stretch="{x:Static omega:Marquee.Stretch}" HorizontalAlignment="Center" VerticalAlignment="{x:Static omega:Marquee.VerticalAlignment}" Height="{x:Static omega:Marquee.Height}" Width="{x:Static omega:Marquee.Width}" RenderOptions.BitmapScalingMode="HighQuality"
-		Tag="{Binding Path=SelectedPlatform.BannerImagePath}">
-			<Image.Style>
-				<Style TargetType="{x:Type Image}">
-                    <Setter Property="Visibility" Value="Visible"/>
-					<Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=MarqueeVideo, Path=Visibility}" Value="Visible">
-                            <Setter Property="Visibility" Value="Hidden"/>
-                        </DataTrigger>
-						<DataTrigger Binding="{Binding Path=Tag,RelativeSource={RelativeSource Self}}" Value="">
-							<Setter Property="Visibility" Value="Hidden"/>
-						</DataTrigger>
-						<DataTrigger Binding="{Binding Path=Tag,RelativeSource={RelativeSource Self}}" Value="{x:Null}">
-							<Setter Property="Visibility" Value="Hidden"/>
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-			</Image.Style>		  
-		</Image>
-
-		<!-- Video files have highest priority. -->
-		<omega:OmegaMediaElement x:Name="MarqueeVideo"
-			HorizontalAlignment="Center" VerticalAlignment="{x:Static omega:Marquee.VerticalAlignment}" Height="{x:Static omega:Marquee.Height}" Width="{x:Static omega:Marquee.Width}" Stretch="{x:Static omega:Marquee.Stretch}" Volume="0" IsMuted="true"
-			ScrubbingEnabled="true" CacheMode="BitmapCache">
-			<omega:OmegaMediaElement.VideoPath>
-				<MultiBinding Converter="{StaticResource VideoMarqueePathConverter}">                    
-					<Binding Path="SelectedPlatform.Name" />
-				</MultiBinding>   
-			</omega:OmegaMediaElement.VideoPath>
-			<omega:OmegaMediaElement.Style>
-				<Style TargetType="{x:Type omega:OmegaMediaElement}">
-					<Setter Property="Visibility" Value="Visible"/>
-					<Style.Triggers>
-						<DataTrigger Binding="{Binding Path=VideoPath,RelativeSource={RelativeSource Self}}" Value="about:blank">
-							<Setter Property="Visibility" Value="Hidden"/>
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-			</omega:OmegaMediaElement.Style>
-		</omega:OmegaMediaElement>
-			
+        <Image Source="{Binding Path=SelectedPlatform.BannerImagePath}" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" />
     </Grid>
 </UserControl>

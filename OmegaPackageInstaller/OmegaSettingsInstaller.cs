@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IWshRuntimeLibrary;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,13 +13,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using File = System.IO.File;
 
 namespace OmegaPackageInstaller
 {
     public partial class OmegaSettingsInstaller : Form
     {
         //Bump the version number for each release
-        private String NewVersion = "1.18";
+        private String NewVersion = "2.0";
 
         public OmegaSettingsInstaller()
         {
@@ -31,8 +33,6 @@ namespace OmegaPackageInstaller
             //These files will be added (or replaced if they exist).
             //For each of these, a correspondidng file must be added to the project with Build Action set to Embedded Resource
             InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "OmegaSettingsMenu.dll"));
-            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "XamlAnimatedGif.dll"));
-            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "ManagePlatformVideoMarquees.dll"));
             InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "GameMarqueeView.xaml"));
             InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "PlatformMarqueeView.xaml"));
             //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "WheelGamesView.xaml"));
@@ -40,9 +40,23 @@ namespace OmegaPackageInstaller
             //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "Wheel3GamesView.xaml"));
             //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Themes\\Unified Redux\\Views\\", "Wheel4GamesView.xaml"));
             //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\", "RebootBigBox.exe"));
-            //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\", "BigBoxWithStartupMarquee.exe", Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)));
-            //            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "OmegaStartupMarquee.dll"));
-            InstallFileList.Add(new InstallFile(LaunchBoxFolder + "\\", "OmegaBigBoxMonitor.exe"));
+
+
+            //Thirdscreen files:
+            ThirdScreenFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "ThirdScreen.dll"));
+            ThirdScreenFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "ThirdScreenSupportLib.dll"));
+            ThirdScreenFileList.Add(new InstallFile(LaunchBoxFolder + "\\Plugins\\", "ManagePlatformVideoMarquees.dll"));
+            ThirdScreenFileList.Add(new InstallFile(LaunchBoxFolder + "\\Data\\", "ThirdScreenSettings.xml"));
+
+            ThirdScreenFileList.Add(new InstallFile(LaunchBoxFolder + "\\ThirdParty\\MediaInfo\\x64\\", "libcrypto-3-x64.dll"));
+            ThirdScreenFileList.Add(new InstallFile(LaunchBoxFolder + "\\ThirdParty\\MediaInfo\\x64\\", "libcurl.dll"));
+            ThirdScreenFileList.Add(new InstallFile(LaunchBoxFolder + "\\ThirdParty\\MediaInfo\\x64\\", "libssl-3-x64.dll"));
+            ThirdScreenFileList.Add(new InstallFile(LaunchBoxFolder + "\\ThirdParty\\MediaInfo\\x64\\", "MediaInfo.dll"));
+
+            ThirdScreenFileList.Add(new InstallFile(LaunchBoxFolder + "\\ThirdParty\\MediaInfo\\x86\\", "libcrypto-3.dll"));
+            ThirdScreenFileList.Add(new InstallFile(LaunchBoxFolder + "\\ThirdParty\\MediaInfo\\x86\\", "libcurl.dll", true, "x86_libcurl.dll"));
+            ThirdScreenFileList.Add(new InstallFile(LaunchBoxFolder + "\\ThirdParty\\MediaInfo\\x86\\", "libssl-3.dll"));
+            ThirdScreenFileList.Add(new InstallFile(LaunchBoxFolder + "\\ThirdParty\\MediaInfo\\x86\\", "MediaInfo.dll", true, "x86_MediaInfo.dll"));
 
 
             // These files will be deleted if they exist
@@ -50,7 +64,12 @@ namespace OmegaPackageInstaller
             DeleteFileList.Add(new DeleteFile(LaunchBoxFolder + "\\Plugins\\", "MediaPlayer.Wpf.Mpv.dll"));
             DeleteFileList.Add(new DeleteFile(LaunchBoxFolder + "\\Plugins\\", "Mpv.NET.dll"));
             DeleteFileList.Add(new DeleteFile(LaunchBoxFolder + "\\ThirdParty\\MPV\\", "mpv-2.dll"));
-            DeleteFileList.Add(new DeleteFile(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "OmegaBigBoxMonitor.lnk"));
+
+            DeleteFileList.Add(new DeleteFile(LaunchBoxFolder + "\\Plugins\\", "XamlAnimatedGif.dll"));
+            DeleteFileList.Add(new DeleteFile(LaunchBoxFolder + "\\", "BigBoxWithStartupMarquee.exe", Environment.GetFolderPath(Environment.SpecialFolder.Startup)));
+            DeleteFileList.Add(new DeleteFile(LaunchBoxFolder + "\\Plugins\\", "OmegaStartupMarquee.dll"));
+            DeleteFileList.Add(new DeleteFile(LaunchBoxFolder + "\\", "OmegaBigBoxMonitor.exe", Environment.GetFolderPath(Environment.SpecialFolder.Startup)));
+            DeleteFileList.Add(new DeleteFile(LaunchBoxFolder + "\\Data\\", "OmegaBigBoxMonitor.xml"));
 
             start_timer.Interval = 250;
             start_timer.Enabled = true;
@@ -71,24 +90,142 @@ namespace OmegaPackageInstaller
             //}
             //catch { }
 
-            //Adjust Background image priorities (these are used for static image themes)
-            try
-            {
-                XDocument xdoc = XDocument.Load(LaunchBoxFolder + "/Data/Settings.xml");
-                var element = xdoc
-                        .XPathSelectElement("/LaunchBox/Settings")
-                        .Element("BackgroundImageTypePriorities");
-                element.Value = "Screenshot - Game Title,Screenshot - Game Select,Screenshot - Gameplay,Epic Games Background,Uplay Background,Origin Background,Amazon Background,Fanart - Background,Advertisement Flyer - Front,Arcade - Cabinet,Clear Logo";
-                xdoc.Save(LaunchBoxFolder + "/Data/Settings.xml");
-                textbox_console.AppendText("Adjusted LaunchBox background image path priorities to support static image themes.\r\n");
-            }
-            catch{ }
+            ////Adjust Background image priorities (these are used for static image themes)
+            //try
+            //{
+            //    XDocument xdoc = XDocument.Load(LaunchBoxFolder + "/Data/Settings.xml");
+            //    var element = xdoc
+            //            .XPathSelectElement("/LaunchBox/Settings")
+            //            .Element("BackgroundImageTypePriorities");
+            //    element.Value = "Screenshot - Game Title,Screenshot - Game Select,Screenshot - Gameplay,Epic Games Background,Uplay Background,Origin Background,Amazon Background,Fanart - Background,Advertisement Flyer - Front,Arcade - Cabinet,Clear Logo";
+            //    xdoc.Save(LaunchBoxFolder + "/Data/Settings.xml");
+            //    textbox_console.AppendText("Adjusted LaunchBox background image path priorities to support static image themes.\r\n");
+            //}
+            //catch{ }
 
+            //Create the startup shortcut if it doesn't exist.
+            string TargetPathName = Path.Combine(LaunchBoxFolder, "BigBox.exe");
+            WshShell shell = new WshShell(); //Create a new WshShell Interface
+            Boolean link_found = false;
+
+            foreach (var file in Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.Startup)))
+            {
+                try
+                {
+                    IWshShortcut existing_link = (IWshShortcut)shell.CreateShortcut(Path.GetFullPath(file)); //Link the interface to our shortcut
+                    if (existing_link.TargetPath == TargetPathName)
+                    {
+                        //The shortcut already exists.
+                        link_found = true;
+                    }
+                }
+                catch { }
+            }
+            if (!link_found)
+            {
+                String shortcut_path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "BigBox.lnk");
+                IWshShortcut link = (IWshShortcut)shell.CreateShortcut(shortcut_path);
+                link.TargetPath = TargetPathName;
+                link.Save();
+                textbox_console.AppendText("Added startup shortcut to BigBox.exe.\r\n");
+            }
+
+            //Test if ThirdScreen is already installed
+            String thirdscreen_path = Path.Combine(LaunchBoxFolder, "ThirdScreen.dll");
+            if (!File.Exists(thirdscreen_path))
+            {
+                //ThirdScreen not installed
+
+                //Disable Marquee in BigBox
+                try
+                {
+                    XDocument xdoc = XDocument.Load(LaunchBoxFolder + "/Data/BigBoxSettings.xml");
+                    var element = xdoc
+                            .XPathSelectElement("/LaunchBox/BigBoxSettings")
+                            .Element("MarqueeMonitorIndex");
+                    element.Value = "-1";
+                    xdoc.Save(LaunchBoxFolder + "/Data/BigBoxSettings.xml");
+                    textbox_console.AppendText("Disabled Marquee in BigBox settings.\r\n");
+                }
+                catch { }
+
+                //Install ThirdScreen files along with initial settings file
+                foreach (var ts_file in ThirdScreenFileList)
+                {
+                    ts_file.Install();
+                }
+
+                //Move any marquee startup videos to thirdscreen startup folder
+                if (Directory.Exists(Path.Combine(LaunchBoxFolder, "Videos/StartupMarquee")))
+                {
+                    //Create the ThirdScreen startup folder for the main marquee
+                    if (!Directory.Exists(Path.Combine(LaunchBoxFolder, "Videos/StartupThirdScreen")))
+                    {
+                        Directory.CreateDirectory(Path.Combine(LaunchBoxFolder, "Videos/StartupThirdScreen"));
+
+                        if (!Directory.Exists(Path.Combine(LaunchBoxFolder, "Videos/StartupThirdScreen/Main Marquee")))
+                        {
+                            Directory.CreateDirectory(Path.Combine(LaunchBoxFolder, "Videos/StartupThirdScreen/Main Marquee"));
+                        }
+                    }
+
+                    //Copy startup videos
+                    foreach (var file in Directory.GetFiles(Path.Combine(LaunchBoxFolder, "Videos/StartupMarquee")))
+                    {
+                        File.Copy(file, Path.Combine(Path.Combine(LaunchBoxFolder, "Videos/StartupThirdScreen/Main Marquee"), Path.GetFileName(file)));
+                    }
+                }
+            }
+            else
+            {
+                //ThirdScreen already installed
+
+                //Check version. Replace files if older than 2.0.12. Do not overwrite the settings file.
+                String ts_settings_path = Path.Combine(LaunchBoxFolder, "Data/ThirdScreenSettings.xml");
+                if (File.Exists(ts_settings_path))
+                {
+                    try { xSettingsDoc = XDocument.Load(ts_settings_path); }
+                    catch { xSettingsDoc = null; }
+                    if (xSettingsDoc != null)
+                    {
+                        try
+                        {
+                            XElement ThirdScreenSettings = new XElement("ThirdScreenPlugin");
+
+                            string XMLVersion = xSettingsDoc
+                                                .XPathSelectElement("/ThirdScreenPlugin/AppSettings")
+                                                .Element("Version")
+                                                .Value;
+
+                            if (ThirdScreenVersion.Compare(XMLVersion, "2.0.12") < 0)
+                            {
+                                textbox_console.AppendText("Updating ThirdScreen to version 2.0.12.\r\n");
+                                foreach (var ts_file in ThirdScreenFileList)
+                                {
+                                    if (ts_file.filename != "ThirdScreenSettings.xml")
+                                        ts_file.Install();
+                                }
+                            }
+                        }
+                        catch { }
+                    }
+                }
+            }
         }
 
         private void DisplayHistory()
         {
             textbox_console.AppendText("Completed.\r\n\r\n");
+
+            textbox_console.AppendText("What's new in v2.0:\r\n");
+            textbox_console.AppendText(" - Removed Marquee support (replaced by ThirdScreen). \r\n");
+            textbox_console.AppendText(" - Removed OmegaBigBoxMonitor. \r\n");
+            textbox_console.AppendText(" - Removed OTA update support. \r\n");
+            textbox_console.AppendText(" - No longer apply settings at startup (to improve startup time). \r\n");
+            textbox_console.AppendText(" - Restored original unified redux marquee view files. \r\n");
+            textbox_console.AppendText(" - Added BigBoxDailyReboot plugin (disabled by default). \r\n");
+            textbox_console.AppendText(" - Added ThirdScreen plugin (if not already installed). \r\n");
+
 
             textbox_console.AppendText("What's new in v1.18:\r\n");
             textbox_console.AppendText(" - Restored the ManagePlatformVideoMarquees plugin that was removed in 1.17. \r\n");
@@ -323,6 +460,8 @@ namespace OmegaPackageInstaller
                     this.Close();
             }
         }
+
+        private List<InstallFile> ThirdScreenFileList = new List<InstallFile>();
 
         private List<InstallFile> InstallFileList = new List<InstallFile>();
         private List<DeleteFile> DeleteFileList = new List<DeleteFile>();

@@ -18,17 +18,28 @@ namespace OmegaPackageInstaller
         {
             this.install_path = path;
             this.filename = file;
+            this.resource_name = this.filename;
             this.shortcut_dest = null;
         }
+        public InstallFile(String path, String file, Boolean rename, String resource_name)
+        {
+            this.install_path = path;
+            this.filename = file;
+            this.resource_name = resource_name;
+            this.shortcut_dest = null;
+        }
+
         public InstallFile(String path, String file, String shortcut_dest)
         {
             this.install_path = path;
             this.filename = file;
+            this.resource_name = this.filename;
             this.shortcut_dest = shortcut_dest;
         }
 
         public String install_path;
         public String filename;
+        public String resource_name;
         public String shortcut_dest;
 
         public void Install()
@@ -63,7 +74,7 @@ namespace OmegaPackageInstaller
             }
 
             //Write the file.
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("OmegaPackageInstaller." + filename);
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("OmegaPackageInstaller." + resource_name);
             FileStream fileStream = new FileStream(Path.Combine(install_path, filename), FileMode.CreateNew);
             for (int i = 0; i < stream.Length; i++)
                 fileStream.WriteByte((byte)stream.ReadByte());

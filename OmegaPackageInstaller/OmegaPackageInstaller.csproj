@@ -65,6 +65,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThirdScreenVersion.cs" />
     <EmbeddedResource Include="OmegaSettingsInstaller.resx">
       <DependentUpon>OmegaSettingsInstaller.cs</DependentUpon>
     </EmbeddedResource>
@@ -103,7 +104,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="XamlAnimatedGif.dll" />
+    <EmbeddedResource Include="OmegaSettingsMenu.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GameMarqueeView.xaml">
@@ -116,11 +117,22 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="OmegaBigBoxMonitor.exe" />
-    <EmbeddedResource Include="OmegaSettingsMenu.dll" />
+    <EmbeddedResource Include="ManagePlatformVideoMarquees.dll" />
+    <EmbeddedResource Include="ThirdScreen.dll" />
+    <EmbeddedResource Include="ThirdScreenSupportLib.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ManagePlatformVideoMarquees.dll" />
+    <EmbeddedResource Include="ThirdScreenSettings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="libcrypto-3-x64.dll" />
+    <EmbeddedResource Include="libcrypto-3.dll" />
+    <EmbeddedResource Include="libcurl.dll" />
+    <EmbeddedResource Include="libssl-3-x64.dll" />
+    <EmbeddedResource Include="libssl-3.dll" />
+    <EmbeddedResource Include="MediaInfo.dll" />
+    <EmbeddedResource Include="x86_libcurl.dll" />
+    <EmbeddedResource Include="x86_MediaInfo.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

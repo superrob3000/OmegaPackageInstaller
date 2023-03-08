@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ThirdScreenPlugin>
+  <AppSettings>
+    <Version>2.0.12</Version>
+    <LoggingEnabled>false</LoggingEnabled>
+    <EnableInLaunchBox>true</EnableInLaunchBox>
+    <HandleResolutionChanges>true</HandleResolutionChanges>
+    <Theme>Blue</Theme>
+  </AppSettings>
+  <ScreenSettings>
+    <Name>Main Marquee</Name>
+    <Enabled>true</Enabled>
+    <Display>None</Display>
+    <MarqueeScreenCompatibilityMode>None</MarqueeScreenCompatibilityMode>
+    <StartupStretch>true</StartupStretch>
+    <BlurFill>true</BlurFill>
+    <PlatformMediaPaths>
+      <MediaPath priority="0" stretch="true">PlatformMarqueeVideo</MediaPath>
+      <MediaPath priority="1" stretch="true">PlatformBannerImage</MediaPath>
+      <MediaPath priority="2" stretch="false">PlatformClearLogoImage</MediaPath>
+      <MediaPath priority="3" stretch="false">Clear Logo</MediaPath>
+    </PlatformMediaPaths>
+    <GameMediaPaths>
+      <MediaPath priority="0" stretch="true">Marquee</MediaPath>
+      <MediaPath priority="1" stretch="true">Arcade - Marquee</MediaPath>
+      <MediaPath priority="2" stretch="true">Banner</MediaPath>
+      <MediaPath priority="3" stretch="true">Steam Banner</MediaPath>
+      <MediaPath priority="4" stretch="false">Clear Logo</MediaPath>
+    </GameMediaPaths>
+  </ScreenSettings>
+</ThirdScreenPlugin>
